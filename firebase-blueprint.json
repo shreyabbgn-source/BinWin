@@ -1,0 +1,83 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Extended user profile with recycling stats",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "points": { "type": "integer", "description": "Current reward points" },
+        "totalRecycledWeight": { "type": "number", "description": "Total weight in kg" },
+        "level": { "type": "integer", "description": "User level based on activity" },
+        "badges": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["uid", "email", "points"]
+    },
+    "Reward": {
+      "title": "Reward",
+      "description": "Available rewards for redemption",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "pointsCost": { "type": "integer" },
+        "category": { "type": "string", "enum": ["Food", "Transport", "Shopping", "Entertainment"] },
+        "imageUrl": { "type": "string" },
+        "expiryDate": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "pointsCost", "category"]
+    },
+    "Bin": {
+      "title": "Bin",
+      "description": "Smart bin locations",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "locationName": { "type": "string" },
+        "type": { "type": "string", "enum": ["Plastic", "Glass", "Paper", "Metal", "General"] },
+        "status": { "type": "string", "enum": ["Empty", "Half-Full", "Full"] },
+        "lastEmptied": { "type": "string", "format": "date-time" },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" }
+      },
+      "required": ["locationName", "type", "status"]
+    },
+    "History": {
+      "title": "History",
+      "description": "Recycling transaction history",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "binId": { "type": "string" },
+        "weight": { "type": "number" },
+        "pointsEarned": { "type": "integer" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "type": { "type": "string" }
+      },
+      "required": ["userId", "weight", "pointsEarned", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/rewards/{rewardId}": {
+      "schema": "Reward",
+      "description": "Available rewards"
+    },
+    "/bins/{binId}": {
+      "schema": "Bin",
+      "description": "Smart bin locations"
+    },
+    "/history/{historyId}": {
+      "schema": "History",
+      "description": "Recycling events"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "BinWin",
+  "description": "A smart waste management and rewards application that incentivizes recycling with points and eco-rewards.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
